@@ -325,15 +325,24 @@ function assignShiftsOnPreferred(schedule, people, sortedDonPrefs, avails, reqs,
             let { shiftType, donReq, pts } = getShiftReqs(currDay, reqs);
             
             for (let donPrefIdx = 0; donPrefIdx < sortedDonPrefs.length; donPrefIdx++) {
+                const donPref = sortedDonPrefs[donPrefIdx];
+                const donIdx = donPref[0];
+
+                // Cannot be assigned the same shift twice
+                let skip = false;
+                for (const shift of people[donIdx].shifts) {
+                    if (shift.day === day) { skip = true; }
+                }
+                if (skip) { continue; }
+
                 if (schedule[day].length < donReq) {
-                    const donPref = sortedDonPrefs[donPrefIdx];
-                    const donIdx = donPref[0];
-                    const notPref = allowNotPreferred && (avails[donIdx][day] === Availabilities.NOT_AVAILABLE);
+                    // Attempt to assign a shift
+                    const notPref = allowNotPreferred && (avails[donIdx][day] !== Availabilities.NOT_AVAILABLE);
                     let underThreshold;
                     !useLowerShiftThrshld ? underThreshold = people[donIdx].points < pointsPerPerson 
-                    : underThreshold = people[donIdx].shifts.length < threshold;
+                        : underThreshold = (people[donIdx].shifts.length < threshold) && (people[donIdx].points < pointsPerPerson);
                     if (onlyFillWeekdays) {
-                        underThreshold = (people[donIdx].points + pts <= pointsPerPerson) && (shiftType == ShiftTypes.ON_CALL_WKDAY);
+                        underThreshold = underThreshold && (shiftType === ShiftTypes.ON_CALL_WKDAY);
                     }
                     if ((donPref[2].includes(day) || notPref) && underThreshold && donPref[3] == 0) {
                         const onCall = new Shift(people[donIdx].name, shiftType, day);
