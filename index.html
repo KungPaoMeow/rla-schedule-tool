@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSV Upload Test</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Upload a CSV File</h1>
+    <input type="file" id="csvFileInput" accept=".csv" />
+    <button id="uploadButton">Upload</button>
+    <pre id="output"></pre>
+
+    <h2>Requirements</h2>
+    <label for="Sun-Wed"># On-Calls: Sun-Wed</label>
+    <input type="number" name="Sun-Wed" id="Sun-Wed" placeholder="1" value="1" min="0" oninput="validity.valid||(value='1');"/>
+    <label for="Thurs"># On-Calls: Thurs</label>
+    <input type="number" name="Thurs" id="Thurs" placeholder="2" value="2" min="0" oninput="validity.valid||(value='1');"/>
+    <label for="Fri-Sat"># On-Calls: Fri-Sat</label>
+    <input type="number" name="Fri-Sat" id="Fri-Sat" placeholder="2" value="2" min="0" oninput="validity.valid||(value='1');"/>
+
+    <label for="num-days"># Days in Month</label>
+    <select name="num-days" id="num-days">
+        <option value="28">28</option>
+        <option value="29">29</option>
+        <option value="30">30</option>
+        <option value="31" selected>31</option>
+    </select>
+    <label for="first-day-of-month">First Day of Month</label>
+    <select name="first-day-of-month" id="first-day-of-month">
+        <option value="0" selected>SUN</option>
+        <option value="1">MON</option>
+        <option value="2">TUE</option>
+        <option value="3">WED</option>
+        <option value="4">THU</option>
+        <option value="5">FRI</option>
+        <option value="6">SAT</option>
+    </select>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
