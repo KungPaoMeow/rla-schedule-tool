@@ -205,24 +205,28 @@ function assignShifts(people, avails, reqs) {
 
     // Do it again without a spread in an attempt to fill any holes
     assignShiftsOnPreferred(schedule, people, sortedDonPrefs, avails, reqs, pointsPerPerson);
-
     console.log("Status after only considering preferred: ");
     console.log(JSON.parse(JSON.stringify(schedule)));
     console.log(JSON.parse(JSON.stringify(people)));
 
     // Do it again also scheduling not preferred status in an attempt to fill any holes
     assignShiftsOnPreferred(schedule, people, sortedDonPrefs, avails, reqs, pointsPerPerson, { allowNotPreferred: true });
-
     console.log("Status after considering not preferred: ");
     console.log(JSON.parse(JSON.stringify(schedule)));
     console.log(JSON.parse(JSON.stringify(people)));
     
     // Look at `lower number of shifts people` in an attempt to fill any holes with weekday shifts
     assignShiftsOnPreferred(schedule, people, sortedDonPrefs, avails, reqs, pointsPerPerson+1, { useLowerShiftThrshld: true, onlyFillWeekdays: true });
-    
+    console.log("Status after trying filling weekday holes with increased point: ");
+    console.log(JSON.parse(JSON.stringify(schedule)));
+    console.log(JSON.parse(JSON.stringify(people)));
+
     // Same thing but filling weekends too
     assignShiftsOnPreferred(schedule, people, sortedDonPrefs, avails, reqs, pointsPerPerson+1, { useLowerShiftThrshld: true });
-    
+    console.log("Status after trying filling weekend holes with increased point: ");
+    console.log(JSON.parse(JSON.stringify(schedule)));
+    console.log(JSON.parse(JSON.stringify(people)));
+
     // Now consider assigning not preferred status to people with less shifts
     assignShiftsOnPreferred(schedule, people, sortedDonPrefs, avails, reqs, pointsPerPerson+1, { allowNotPreferred: true, useLowerShiftThrshld: true });
     
