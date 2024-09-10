@@ -395,15 +395,22 @@ function sortDonShifts(shifts) {
 /**
  * Generates .csv file content.
  * 
+ * @param {Array<Array<Shift>>} schedule A schedule, where the first element is null and day 1 starts on index 1.
  * @param {Array<Person>} people Array of `Person` objects, where each object has a person's Shifts and points.
+ * @param {Object} reqs Custom object containing various scheduling requirements and constraints.
  * @returns {string} The generated content as a string, ready to be turned into a .csv file.
  */
-function generateCSVContent(schedule, people) {
+function generateCSVContent(schedule, people, reqs) {
     const days = schedule.length - 1;
-    // const days = 4;
+    const daysOfWeek = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
+    let currDay = reqs.monthInfo.firstDay;
     
     // Create header row
-    const dayColHeaders = [...new Array(days)].map((_, i) => i+1);
+    const dayColHeaders = [...new Array(days)].map((_, i) => {
+        let cell = `${i+1} - ${daysOfWeek[currDay]}`;
+        currDay = (currDay+1) % 7;
+        return cell;
+    });
     let csv = 'Name,' + dayColHeaders.join(',') + '' + '\n';
     
     // Create data rows
@@ -489,7 +496,7 @@ document.getElementById('uploadButton').addEventListener('click', async function
         console.log(people);
 
         // Generate CSV Content
-        const csvContent = generateCSVContent(schedule, people);
+        const csvContent = generateCSVContent(schedule, people, requirements);
         // console.log(csvContent);
 
         // Prep for download
