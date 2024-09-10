@@ -461,7 +461,7 @@ document.getElementById('uploadButton').addEventListener('click', async function
         output.textContent = 'Please select a CSV file first.';
         return;
     }
-
+    output.textContent = '';
     try {
         const peopleAvails = await handleInputCSV(file);
         
