@@ -441,7 +441,7 @@ function downloadCSV(csvContent, fileName) {
     link.setAttribute('href', url);
     link.setAttribute('download', fileName);      // Set name of download
     link.textContent = fileName;  
-    downloadBtn.textContent = 'Generation was successful: ';
+    downloadBtn.textContent = 'Click link to download: ';
     downloadBtn.appendChild(link);
     output.appendChild(downloadBtn);
     
@@ -500,4 +500,5 @@ document.getElementById('uploadButton').addEventListener('click', async function
         output.textContent = error;
         return;
     }
+    alert("Generation Successful!");
 });
